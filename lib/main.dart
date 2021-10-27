@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodhub/food_hub/ui/cart_page.dart';
 import 'package:foodhub/food_hub/ui/category_page.dart';
 import 'package:foodhub/food_hub/ui/foodhub_landing_page.dart';
 import 'package:foodhub/food_hub/ui/homepage1.dart';
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home:ProductDescriptionPage(),
+      home:CartPage(),
     );
   }
 }

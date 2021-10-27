@@ -4,13 +4,17 @@ class SearchItemCard extends StatefulWidget {
   final bool checkoutbutton;
   final String buttonName;
   final bool? showbuttonName;
-  final double?  width;
-  final double?  height;
+  final double? width;
+  final double? height;
+  final bool? showAdsub;
   const SearchItemCard(
       {Key? key,
       required this.checkoutbutton,
       required this.buttonName,
-      this.showbuttonName, this.width, this.height})
+      this.showbuttonName,
+      this.width,
+      this.height,
+      this.showAdsub})
       : super(key: key);
 
   @override
@@ -30,6 +34,7 @@ class _SearchItemCardState extends State<SearchItemCard> {
                 width: 200,
                 height: 135,
                 decoration: BoxDecoration(
+                  borderRadius:  BorderRadius.all(Radius.circular(10)),
                     image: DecorationImage(
                         image: AssetImage("images/carrot.png"),
                         fit: BoxFit.cover)),
@@ -75,12 +80,27 @@ class _SearchItemCardState extends State<SearchItemCard> {
                         primary: Colors.teal,
                         backgroundColor: Colors.green[50],
                         onSurface: Colors.grey,
-                        textStyle:
-                            TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        textStyle: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       onPressed: () {},
                     ),
                   ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                          icon: Icon(
+                            Icons.remove_circle,
+                          ),
+                          onPressed: () {}),
+                      Text('2'),
+                      IconButton(
+                          icon: Icon(
+                            Icons.add_circle,
+                          ),
+                          onPressed: () {}),
+                    ])
               ],
             ),
           ),

@@ -28,7 +28,9 @@ class _SuggestedProductCardState extends State<SuggestedProductCard> {
                   width: 276,
                   height: 166,
                   decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)) ,
                       image: DecorationImage(
+                        
                           image: AssetImage("images/fdhubbg.png"),
                           fit: BoxFit.cover)),
                 ),

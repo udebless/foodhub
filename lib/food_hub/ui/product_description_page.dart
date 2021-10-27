@@ -14,6 +14,7 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[300],
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -170,7 +171,7 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
                     child: Text(
                       'Customers also viewed',
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                     ),
                   ),
                   ScrollableRow(
@@ -251,7 +252,7 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
             children: [
               CustomFlatButton(
                 imageIcon: Icon(Icons.shopping_cart),
-                height: 60,
+                height: 50,
                 width: 400,
                 onPressed: () {},
                 buttonName: 'Checkout',
