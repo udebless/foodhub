@@ -44,6 +44,7 @@ class _SuggestedProductCardState extends State<SuggestedProductCard> {
             SizedBox(height: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              
               children: [
                 Text(
                   'Product',

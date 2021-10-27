@@ -32,11 +32,11 @@ class CustomFlatButton extends StatelessWidget {
         ),
         style: TextButton.styleFrom(
           
-          side: BorderSide(),
+          //side: BorderSide(),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          primary: Colors.teal,
-          backgroundColor: Colors.white,
+          primary: Colors.green,
+          backgroundColor: Colors.green[50],
           onSurface: Colors.grey,
           textStyle: TextStyle(fontSize: 40),
         ),

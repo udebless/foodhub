@@ -4,7 +4,7 @@ import 'package:foodhub/food_hub/ui/foodhub_landing_page.dart';
 import 'package:foodhub/food_hub/ui/homepage1.dart';
 import 'package:foodhub/food_hub/ui/login.dart';
 import 'package:foodhub/food_hub/ui/home_page.dart';
-import 'package:foodhub/food_hub/ui/oroduct_description_page.dart';
+import 'package:foodhub/food_hub/ui/product_description_page.dart';
 import 'package:foodhub/food_hub/ui/saved_page.dart';
 import 'package:foodhub/food_hub/ui/search.dart';
 import 'package:foodhub/food_hub/ui/searchpage.dart';
