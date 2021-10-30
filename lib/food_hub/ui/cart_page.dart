@@ -5,7 +5,7 @@ import 'package:foodhub/widgets/search_item_cards.dart';
 import 'package:foodhub/widgets/srollablerow.dart';
 
 class CartPage extends StatefulWidget {
-  const CartPage({Key? key}) : super(key: key);
+  const CartPage({ Key? key }) : super(key: key);
 
   @override
   _CartPageState createState() => _CartPageState();
@@ -17,7 +17,7 @@ class _CartPageState extends State<CartPage> {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
+         SliverAppBar(
             expandedHeight: 200,
             collapsedHeight: 150,
             pinned: true,
@@ -28,18 +28,14 @@ class _CartPageState extends State<CartPage> {
                   image: DecorationImage(
                       image: AssetImage("images/cartbg.png"),
                       fit: BoxFit.cover),
-                )),
-          ),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Cart',
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-              ),
-            ),
-          ),
-          SliverList(
+                )),),
+SliverToBoxAdapter(
+  child: Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Text('Cart', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+  ),
+), 
+SliverList(
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
                 return Padding(
@@ -47,41 +43,40 @@ class _CartPageState extends State<CartPage> {
                   child: SearchItemCard(
                     width: 100,
                     height: 50,
+                 
                     checkoutbutton: true,
-                    buttonName: 'Checkout',
+                    //buttonName: 'Checkout',
                   ),
                 );
               },
               childCount: 2,
             ),
           ),
+
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Cart Total',
-                      style:
-                          TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
-                  Text(
-                    'N3453',
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                  )
+Text('Cart Total', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+         Text('N3453', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold), )
                 ],
               ),
             ),
           ),
+
           SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(13.0),
-              child: CustomFlatButton(
-                height: 60,
-                width: 300,
-                onPressed: () {},
-                buttonName: 'Checkout',
-              ),
-            ),
+          child: Padding(
+            padding: const EdgeInsets.all(13.0),
+            child: CustomFlatButton(
+                  
+                  height: 60,
+                  width: 300,
+                onPressed: (){},
+                  buttonName: 'Checkout',
+                  
+                ),
+          ), 
           ),
           SliverToBoxAdapter(
             child: Padding(
@@ -89,17 +84,17 @@ class _CartPageState extends State<CartPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Text(
-                      'Customers also viewed',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-                    ),
-                  ),
+                   Padding(
+                     padding: const EdgeInsets.all(12.0),
+                     child: Text(
+                        'Customers also viewed',
+                        style:
+                            TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                      ),
+                   ),
+                  
                   ScrollableRow(
-                    children:
-                        List.generate(3, (index) => SuggestedProductCard()),
+                    children: List.generate(3, (index) => SuggestedProductCard()),
                   ),
                 ],
               ),
@@ -107,9 +102,10 @@ class _CartPageState extends State<CartPage> {
           )
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
+       bottomNavigationBar: BottomNavigationBar(
           selectedItemColor: Colors.green[900],
           unselectedItemColor: Colors.grey,
+         
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
@@ -132,6 +128,7 @@ class _CartPageState extends State<CartPage> {
               label: '',
             ),
           ]),
+      
     );
   }
 }

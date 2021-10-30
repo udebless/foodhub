@@ -19,3 +19,4 @@ class CategoryCard extends StatelessWidget {
     );
   }
 }
+

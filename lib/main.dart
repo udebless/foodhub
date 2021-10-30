@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodhub/food_hub/ui/cart_page.dart';
 import 'package:foodhub/food_hub/ui/category_page.dart';
+import 'package:foodhub/food_hub/ui/checkout_page.dart';
 import 'package:foodhub/food_hub/ui/foodhub_landing_page.dart';
 import 'package:foodhub/food_hub/ui/homepage1.dart';
 import 'package:foodhub/food_hub/ui/login.dart';
@@ -10,8 +11,10 @@ import 'package:foodhub/food_hub/ui/saved_page.dart';
 import 'package:foodhub/food_hub/ui/search.dart';
 import 'package:foodhub/food_hub/ui/searchpage.dart';
 import 'package:foodhub/food_hub/ui/sign_up.dart';
+import 'package:foodhub/food_hub/ui/success.dart';
 import 'package:foodhub/widgets/category_card.dart';
 import 'package:foodhub/widgets/customCard.dart';
+import 'package:foodhub/widgets/deliverypathCard.dart';
 
 void main() {
   runApp(MyApp());
@@ -35,13 +38,13 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home:CartPage(),
+      home: CheckOutPage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key ? key, required this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -52,7 +55,7 @@ class MyHomePage extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
-  final String  title;
+  final String title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();

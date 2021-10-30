@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 
 class SearchItemCard extends StatefulWidget {
   final bool checkoutbutton;
-  final String buttonName;
+  final String? buttonName;
   final bool? showbuttonName;
   final double? width;
   final double? height;
-  final bool? showAdsub;
+  final bool showAdsub;
   const SearchItemCard(
       {Key? key,
-      required this.checkoutbutton,
-      required this.buttonName,
+      this.checkoutbutton = false,
+      this.buttonName,
       this.showbuttonName,
       this.width,
       this.height,
-      this.showAdsub})
+      this.showAdsub = false})
       : super(key: key);
 
   @override
@@ -24,6 +24,9 @@ class SearchItemCard extends StatefulWidget {
 class _SearchItemCardState extends State<SearchItemCard> {
   @override
   Widget build(BuildContext context) {
+   // print(widget.showAdsub);
+      print(widget.checkoutbutton);
+
     return Padding(
       padding: const EdgeInsets.only(left: 15),
       child: Row(
@@ -34,7 +37,7 @@ class _SearchItemCardState extends State<SearchItemCard> {
                 width: 200,
                 height: 135,
                 decoration: BoxDecoration(
-                  borderRadius:  BorderRadius.all(Radius.circular(10)),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
                     image: DecorationImage(
                         image: AssetImage("images/carrot.png"),
                         fit: BoxFit.cover)),
@@ -67,12 +70,12 @@ class _SearchItemCardState extends State<SearchItemCard> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                if (widget.checkoutbutton)
+                if (widget.checkoutbutton && widget.buttonName != null)
                   SizedBox(
                     width: widget.width,
                     height: widget.height,
                     child: TextButton(
-                      child: Text(widget.buttonName),
+                      child: Text(widget.buttonName!),
                       style: TextButton.styleFrom(
                         // side: BorderSide(),
                         shape: RoundedRectangleBorder(
@@ -86,21 +89,22 @@ class _SearchItemCardState extends State<SearchItemCard> {
                       onPressed: () {},
                     ),
                   ),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                          icon: Icon(
-                            Icons.remove_circle,
-                          ),
-                          onPressed: () {}),
-                      Text('2'),
-                      IconButton(
-                          icon: Icon(
-                            Icons.add_circle,
-                          ),
-                          onPressed: () {}),
-                    ])
+                if (!widget.showAdsub)
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                            icon: Icon(
+                              Icons.remove_circle,
+                            ),
+                            onPressed: () {}),
+                        Text('2'),
+                        IconButton(
+                            icon: Icon(
+                              Icons.add_circle,
+                            ),
+                            onPressed: () {}),
+                      ])
               ],
             ),
           ),

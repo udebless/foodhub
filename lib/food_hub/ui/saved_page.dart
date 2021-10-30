@@ -34,6 +34,7 @@ class _SavedPageState extends State<SavedPage> {
                     height: 50,
                     checkoutbutton: true,
                     buttonName: 'Checkout',
+                    showAdsub: false,
                   ),
                 );
               },
