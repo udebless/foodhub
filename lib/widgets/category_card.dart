@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:foodhub/food_hub/models/category.dart';
 
 class CategoryCard extends StatelessWidget {
-  final String categoryText;
-  const CategoryCard({Key? key, required this.categoryText}) : super(key: key);
+  final Category category;
+  const CategoryCard({Key? key,  required  this.category}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class CategoryCard extends StatelessWidget {
       child: Container(
         height: 200,
         width: 200,
-        child: Center(child: Text(categoryText, style: TextStyle(color:Colors.teal , fontSize: 30,fontWeight: FontWeight.w700),)),
+        child: Center(child: Text(category.categoryText, style: TextStyle(color:Colors.teal , fontSize: 30,fontWeight: FontWeight.w700),)),
       ),
     );
   }

@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:foodhub/food_hub/models/category.dart';
+import 'package:foodhub/food_hub/models/product_model.dart';
+import 'package:foodhub/food_hub/services/product_service.dart';
 import 'package:foodhub/widgets/category_card.dart';
 import 'package:foodhub/widgets/custom_card.dart';
 import 'package:foodhub/widgets/srollablerow.dart';
 
 class Homeepage extends StatefulWidget {
-  const Homeepage({Key? key}) : super(key: key);
+
+  const Homeepage({Key? key,}) : super(key: key);
 
   @override
   _HomeepageState createState() => _HomeepageState();
 }
 
 class _HomeepageState extends State<Homeepage> {
+  List<Product> justForYou = ProductService.justForYou();
+    List<Category> productCat = ProductService.productCategory();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,7 +84,11 @@ class _HomeepageState extends State<Homeepage> {
           ),
           SliverToBoxAdapter(
             child: ScrollableRow(
-              children: List.generate(2, (index) => SuggestedProductCard()),
+              children: List.generate(
+                  justForYou.length,
+                  (index) => SuggestedProductCard(
+                        product: justForYou[index],
+                      )),
             ),
           ),
           SliverToBoxAdapter(
@@ -124,9 +134,15 @@ class _HomeepageState extends State<Homeepage> {
             ),
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
-                return CategoryCard(categoryText: 'Fruits');
+                return InkWell(child: CategoryCard( category: productCat[index]),
+                onTap: (){
+                  
+
+                },
+                
+                );
               },
-              childCount: 4,
+              childCount: productCat.length,
             ),
           ),
         ],
@@ -134,7 +150,6 @@ class _HomeepageState extends State<Homeepage> {
       bottomNavigationBar: BottomNavigationBar(
           selectedItemColor: Colors.green[900],
           unselectedItemColor: Colors.grey,
-         
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),

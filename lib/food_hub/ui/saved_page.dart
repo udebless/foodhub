@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:foodhub/food_hub/models/product_model.dart';
+import 'package:foodhub/food_hub/services/product_service.dart';
 import 'package:foodhub/widgets/search_item_cards.dart';
 
 class SavedPage extends StatefulWidget {
@@ -9,6 +11,7 @@ class SavedPage extends StatefulWidget {
 }
 
 class _SavedPageState extends State<SavedPage> {
+  List<Product> savedItems = ProductService.getSavedItems();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,18 +38,18 @@ class _SavedPageState extends State<SavedPage> {
                     checkoutbutton: true,
                     buttonName: 'Checkout',
                     showAdsub: false,
+                    product: savedItems[index],
                   ),
                 );
               },
-              childCount: 7,
+              childCount: savedItems.length,
             ),
           ),
         ],
       ),
-       bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: BottomNavigationBar(
           selectedItemColor: Colors.green[900],
           unselectedItemColor: Colors.grey,
-         
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),

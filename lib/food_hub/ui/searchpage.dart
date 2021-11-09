@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodhub/food_hub/services/product_service.dart';
 import 'package:foodhub/widgets/category_card.dart';
 import 'package:foodhub/widgets/search_item_cards.dart';
 
@@ -10,6 +11,7 @@ class SearchPagee extends StatefulWidget {
 }
 
 class _SearchPageeState extends State<SearchPagee> {
+  var products = ProductService.getAllPrpducts();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,17 +54,23 @@ class _SearchPageeState extends State<SearchPagee> {
               ),
             ),
           ),
-       
-          SliverPadding(padding:EdgeInsets.only(right:15,) ,
+          SliverPadding(
+            padding: EdgeInsets.only(
+              right: 15,
+            ),
             sliver: SliverList(
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
                   return Padding(
-                    padding: const EdgeInsets.only(top:33.0,right: 100),
-                    child: SearchItemCard(checkoutbutton: false, buttonName: 'Check out',),
+                    padding: const EdgeInsets.only(top: 33.0, right: 100),
+                    child: SearchItemCard(
+                      checkoutbutton: false,
+                      buttonName: 'Check out',
+                      product:products[index],
+                    ),
                   );
                 },
-                childCount: 7,
+                childCount: products.length,
               ),
             ),
           ),

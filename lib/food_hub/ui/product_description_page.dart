@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:foodhub/food_hub/models/product_model.dart';
+import 'package:foodhub/food_hub/services/product_service.dart';
 import 'package:foodhub/widgets/buttons/custom_flat_button.dart';
 import 'package:foodhub/widgets/custom_card.dart';
 import 'package:foodhub/widgets/srollablerow.dart';
+import 'package:intl/intl.dart';
 
 class ProductDescriptionPage extends StatefulWidget {
-  const ProductDescriptionPage({Key? key}) : super(key: key);
+  final Product product;
+  const ProductDescriptionPage({Key? key, required this.product})
+      : super(key: key);
 
   @override
   _ProductDescriptionPageState createState() => _ProductDescriptionPageState();
 }
 
 class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
+    var products = ProductService.getAllPrpducts();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,13 +63,13 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
                   child: Column(
                     children: [
                       Text(
-                        'Egg',
+                        widget.product.productName,
                         style: TextStyle(
                             fontSize: 30, fontWeight: FontWeight.bold),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 10.0),
-                        child: Text('N1450',
+                        child: Text(widget.product.price.toString(),
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20)),
                       ),
@@ -112,8 +118,7 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
                     'Product description',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                   ),
-                  Text(
-                      ' Egg is the content of a hard-shelled reproductive body produced by a bird, considered as food Eggs are a protein and nutrient powerhouse. They can be added to many dishes and prepared in numerous ways.One way to enjoy eggs is to hard-boil them.',
+                  Text(widget.product.productDescription,
                       style: TextStyle(fontSize: 20)),
                 ],
               ),
@@ -176,7 +181,9 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
                   ),
                   ScrollableRow(
                     children:
-                        List.generate(2, (index) => SuggestedProductCard()),
+                        List.generate(products.length, (index) => SuggestedProductCard(
+                          product: products[index],
+                        )),
                   ),
                 ],
               ),
@@ -199,7 +206,7 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Udechukwu Commando',
+                            Text(widget.product.customerName,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 20)),
                             Padding(
@@ -219,7 +226,7 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
                       ],
                     ),
                   ),
-                  Text('1/3/2021',
+                  Text(DateFormat(  'yMd').format(widget.product.date),
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
                 ],
@@ -232,12 +239,10 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Amazing product',
+                  Text(widget.product.reviewHeading,
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-                  Text(
-                      'One of the eggs broke before it got to my house, i emailed them and the egg was replaced. I was beyond amazed.',
-                      style: TextStyle(fontSize: 15)),
+                  Text(widget.product.review, style: TextStyle(fontSize: 15)),
                 ],
               ),
             ),

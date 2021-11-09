@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:foodhub/food_hub/models/product_model.dart';
 
 class SearchItemCard extends StatefulWidget {
+  final Product product;
   final bool checkoutbutton;
   final String? buttonName;
   final bool? showbuttonName;
@@ -14,7 +16,7 @@ class SearchItemCard extends StatefulWidget {
       this.showbuttonName,
       this.width,
       this.height,
-      this.showAdsub = false})
+      this.showAdsub = false, required this.product})
       : super(key: key);
 
   @override
@@ -24,8 +26,8 @@ class SearchItemCard extends StatefulWidget {
 class _SearchItemCardState extends State<SearchItemCard> {
   @override
   Widget build(BuildContext context) {
-   // print(widget.showAdsub);
-      print(widget.checkoutbutton);
+    // print(widget.showAdsub);
+    print(widget.checkoutbutton);
 
     return Padding(
       padding: const EdgeInsets.only(left: 15),
@@ -57,14 +59,14 @@ class _SearchItemCardState extends State<SearchItemCard> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  'Pineapple',
+                  widget.product.productName,
                   style: TextStyle(
                     fontSize: 35,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
-                  '\$26',
+                  widget.product.productName,
                   style: TextStyle(
                     fontSize: 35,
                     fontWeight: FontWeight.bold,

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:foodhub/food_hub/models/product_model.dart';
 
 class SuggestedProductCard extends StatefulWidget {
   final double? width;
+  final Product product;
   // final double? height;
 
   const SuggestedProductCard({
     Key? key,
-    this.width,
+    this.width, required this.product,
   }) : super(key: key);
 
   @override
@@ -49,10 +51,10 @@ class _SuggestedProductCardState extends State<SuggestedProductCard> {
               
               children: [
                 Text(
-                  'Product',
+                  widget.product.productName,
                   style: TextStyle(fontSize: 25),
                 ),
-                Text('Price',
+                Text(widget.product.price.toString(),
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.w900)),
               ],
             ),

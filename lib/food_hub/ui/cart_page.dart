@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:foodhub/food_hub/models/product_model.dart';
+import 'package:foodhub/food_hub/services/product_service.dart';
 import 'package:foodhub/widgets/buttons/custom_flat_button.dart';
 import 'package:foodhub/widgets/custom_card.dart';
 import 'package:foodhub/widgets/search_item_cards.dart';
 import 'package:foodhub/widgets/srollablerow.dart';
 
 class CartPage extends StatefulWidget {
-  const CartPage({ Key? key }) : super(key: key);
+  final Product product;
+  const CartPage({Key? key, required this.product}) : super(key: key);
 
   @override
   _CartPageState createState() => _CartPageState();
 }
 
 class _CartPageState extends State<CartPage> {
+  var products = ProductService.getAllPrpducts();
+   List<Product> customerViewed = ProductService.customerAlsoViewed();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-         SliverAppBar(
+          SliverAppBar(
             expandedHeight: 200,
             collapsedHeight: 150,
             pinned: true,
@@ -28,14 +33,18 @@ class _CartPageState extends State<CartPage> {
                   image: DecorationImage(
                       image: AssetImage("images/cartbg.png"),
                       fit: BoxFit.cover),
-                )),),
-SliverToBoxAdapter(
-  child: Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: Text('Cart', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
-  ),
-), 
-SliverList(
+                )),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Cart',
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+          SliverList(
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
                 return Padding(
@@ -43,40 +52,43 @@ SliverList(
                   child: SearchItemCard(
                     width: 100,
                     height: 50,
-                 
+                    product: products[index],
+
                     checkoutbutton: true,
                     //buttonName: 'Checkout',
                   ),
                 );
               },
-              childCount: 2,
+              childCount: products.length,
             ),
           ),
-
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-Text('Cart Total', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
-         Text('N3453', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold), )
+                  Text('Cart Total',
+                      style:
+                          TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+                  Text(
+                    widget.product.price.toString(),
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                  )
                 ],
               ),
             ),
           ),
-
           SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.all(13.0),
-            child: CustomFlatButton(
-                  
-                  height: 60,
-                  width: 300,
-                onPressed: (){},
-                  buttonName: 'Checkout',
-                  
-                ),
-          ), 
+            child: Padding(
+              padding: const EdgeInsets.all(13.0),
+              child: CustomFlatButton(
+                height: 60,
+                width: 300,
+                onPressed: () {},
+                buttonName: 'Checkout',
+              ),
+            ),
           ),
           SliverToBoxAdapter(
             child: Padding(
@@ -84,17 +96,19 @@ Text('Cart Total', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                   Padding(
-                     padding: const EdgeInsets.all(12.0),
-                     child: Text(
-                        'Customers also viewed',
-                        style:
-                            TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-                      ),
-                   ),
-                  
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Text(
+                      'Customers also viewed',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                    ),
+                  ),
                   ScrollableRow(
-                    children: List.generate(3, (index) => SuggestedProductCard()),
+                    children:
+                        List.generate(customerViewed.length, (index) => SuggestedProductCard(
+                          product: customerViewed[index],
+                        )),
                   ),
                 ],
               ),
@@ -102,10 +116,9 @@ Text('Cart Total', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
           )
         ],
       ),
-       bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: BottomNavigationBar(
           selectedItemColor: Colors.green[900],
           unselectedItemColor: Colors.grey,
-         
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
@@ -128,7 +141,6 @@ Text('Cart Total', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
               label: '',
             ),
           ]),
-      
     );
   }
 }
