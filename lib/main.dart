@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: Homeepage(),
+    ///  home:CartPage(product:ProductService.getProductById('2') ),
      // home: ProductDescriptionPage(product: ProductService.getProductById('2')),
     );
   }

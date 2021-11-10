@@ -66,4 +66,12 @@ Category('Ingredients'),
     
     return list;
   }
+    static List <Product> myCart() {
+    var list =<Product> [];
+
+    for (var i = 0; i < 10; i++) {
+      list.add(getProductById(i.toString()));
+    }
+    return list;
+  }
 }

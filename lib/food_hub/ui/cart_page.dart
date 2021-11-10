@@ -1,24 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:foodhub/food_hub/models/product_model.dart';
 import 'package:foodhub/food_hub/services/product_service.dart';
+import 'package:foodhub/food_hub/ui/product_description_page.dart';
+import 'package:foodhub/food_hub/util/cart_utils.dart';
 import 'package:foodhub/widgets/buttons/custom_flat_button.dart';
 import 'package:foodhub/widgets/custom_card.dart';
 import 'package:foodhub/widgets/search_item_cards.dart';
 import 'package:foodhub/widgets/srollablerow.dart';
 
 class CartPage extends StatefulWidget {
-  final Product product;
-  const CartPage({Key? key, required this.product}) : super(key: key);
+  // final Product product;
+  const CartPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _CartPageState createState() => _CartPageState();
 }
 
 class _CartPageState extends State<CartPage> {
-  var products = ProductService.getAllPrpducts();
-   List<Product> customerViewed = ProductService.customerAlsoViewed();
+
+  List<Product> customerViewed = ProductService.customerAlsoViewed();
+  List<Product> cart = ProductService.myCart();
   @override
   Widget build(BuildContext context) {
+  
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -52,14 +58,14 @@ class _CartPageState extends State<CartPage> {
                   child: SearchItemCard(
                     width: 100,
                     height: 50,
-                    product: products[index],
+                    product: cart[index],
 
                     checkoutbutton: true,
                     //buttonName: 'Checkout',
                   ),
                 );
               },
-              childCount: products.length,
+              childCount: cart.length,
             ),
           ),
           SliverToBoxAdapter(
@@ -72,7 +78,7 @@ class _CartPageState extends State<CartPage> {
                       style:
                           TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
                   Text(
-                    widget.product.price.toString(),
+                    calculateCart(cart).toString(),
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                   )
                 ],
@@ -105,10 +111,22 @@ class _CartPageState extends State<CartPage> {
                     ),
                   ),
                   ScrollableRow(
-                    children:
-                        List.generate(customerViewed.length, (index) => SuggestedProductCard(
-                          product: customerViewed[index],
-                        )),
+                    children: List.generate(
+                        customerViewed.length,
+                        (index) => InkWell(
+                              child: SuggestedProductCard(
+                                product: customerViewed[index],
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    new MaterialPageRoute<void>(
+                                        builder: (BuildContext context) =>
+                                            ProductDescriptionPage(
+                                                product:
+                                                    customerViewed[index])));
+                              },
+                            )),
                   ),
                 ],
               ),
@@ -116,31 +134,7 @@ class _CartPageState extends State<CartPage> {
           )
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-          selectedItemColor: Colors.green[900],
-          unselectedItemColor: Colors.grey,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.menu),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.favorite),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: '',
-            ),
-          ]),
+      
     );
   }
 }
