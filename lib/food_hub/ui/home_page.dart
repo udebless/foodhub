@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodhub/blocs/cubit/store_cubit.dart';
 import 'package:foodhub/food_hub/models/category.dart';
 import 'package:foodhub/food_hub/models/product_model.dart';
+import 'package:foodhub/food_hub/services/authServices.dart';
 import 'package:foodhub/food_hub/services/product_service.dart';
 import 'package:foodhub/food_hub/ui/category_page.dart';
+import 'package:foodhub/food_hub/ui/login.dart';
 import 'package:foodhub/widgets/category_card.dart';
 import 'package:foodhub/widgets/custom_card.dart';
 import 'package:foodhub/widgets/srollablerow.dart';
@@ -15,11 +19,23 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<Product> justForYou = ProductService.justForYou();
+  // List<Product> justForYou = ProductService.justForYou();
   List<Category> productCat = ProductService.productCategory();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          await AuthService().signOut(onSuccess: () {
+            if (AuthService().auth.currentUser == null) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Login()),
+              );
+            }
+          });
+        },
+      ),
       body: CustomScrollView(
         slivers: <Widget>[
           SliverToBoxAdapter(
@@ -83,12 +99,16 @@ class _HomeState extends State<Home> {
             ),
           ),
           SliverToBoxAdapter(
-            child: ScrollableRow(
-              children: List.generate(
-                  justForYou.length,
-                  (index) => SuggestedProductCard(
-                        product: justForYou[index],
-                      )),
+            child: BlocBuilder<StoreCubit, StoreState>(
+              builder: (context, Justforyou) {
+                return ScrollableRow(
+                  children: List.generate(
+                     Justforyou. forYou.length,
+                      (index) => SuggestedProductCard(
+                            product: Justforyou.forYou[index],
+                          )),
+                );
+              },
             ),
           ),
           SliverToBoxAdapter(

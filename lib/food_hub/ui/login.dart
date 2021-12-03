@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:foodhub/food_hub/services/authServices.dart';
+import 'package:foodhub/food_hub/ui/home_page.dart';
 import 'package:foodhub/widgets/arrowback/arrowback.dart';
 import 'package:foodhub/widgets/buttons/custom_flat_button.dart';
 import 'package:foodhub/widgets/textfields/text_fields.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -30,10 +33,13 @@ class _LoginState extends State<Login> {
             Positioned(
                 left: 30,
                 top: 50,
-                child: Icon(
-                  Icons.arrow_back,
-                  color: Colors.white,
-                  size: 50,
+                child: InkWell(
+                  onTap: () => Navigator.pop(context),
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                    size: 50,
+                  ),
                 )),
             Positioned(
                 left: 30,
@@ -49,7 +55,7 @@ class _LoginState extends State<Login> {
                 top: 300,
                 left: 35,
                 right: 35,
-                child: CustomTextFields(
+                child: CustomTextFields(fillCollor: Colors.white,
                   fieldText: 'Email Address',
                   controller: _emailController,
                 )),
@@ -58,6 +64,7 @@ class _LoginState extends State<Login> {
                 left: 35,
                 right: 35,
                 child: CustomTextFields(
+                  fillCollor: Colors.white,
                   fieldText: 'Password',
                   controller: _passwordController,
                   customIcons: Icon(Icons.remove_red_eye),
@@ -69,7 +76,17 @@ class _LoginState extends State<Login> {
               child: CustomFlatButton(
                 height: 60,
                 width: 200,
-                onPressed: () {},
+                onPressed: () {
+                  AuthService().login(
+                      _emailController.text, _passwordController.text,
+                      onError: () {},
+                      onSucces: ()=> Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                          builder: (BuildContext context) => Home())));
+                      
+                 
+                },
                 buttonName: 'Login',
               ),
             ),
@@ -97,10 +114,10 @@ class _LoginState extends State<Login> {
                 width: 200,
                 onPressed: () {},
                 buttonName: 'Login with Google',
-                imageIcon:Padding(
+                imageIcon: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Image(image: AssetImage("images/ggl.png")),
-                ) ,
+                ),
               ),
             ),
           ],

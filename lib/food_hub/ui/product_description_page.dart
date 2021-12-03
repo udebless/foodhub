@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodhub/blocs/cubit/store_cubit.dart';
 import 'package:foodhub/food_hub/models/product_model.dart';
 import 'package:foodhub/food_hub/services/product_service.dart';
 import 'package:foodhub/widgets/buttons/custom_flat_button.dart';
@@ -16,7 +18,7 @@ class ProductDescriptionPage extends StatefulWidget {
 }
 
 class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
-    var products = ProductService.getAllPrpducts();
+  // var products = ProductService.getAllPrpducts();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -179,11 +181,16 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                     ),
                   ),
-                  ScrollableRow(
-                    children:
-                        List.generate(products.length, (index) => SuggestedProductCard(
-                          product: products[index],
-                        )),
+                  BlocBuilder<StoreCubit, StoreState>(
+                    builder: (context, allproduct) {
+                      return ScrollableRow(
+                        children: List.generate(
+                            allproduct.allProduct.length,
+                            (index) => SuggestedProductCard(
+                                  product: allproduct.allProduct[index],
+                                )),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -226,7 +233,7 @@ class _ProductDescriptionPageState extends State<ProductDescriptionPage> {
                       ],
                     ),
                   ),
-                  Text(DateFormat(  'yMd').format(widget.product.date),
+                  Text(DateFormat('yMd').format(widget.product.date),
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
                 ],

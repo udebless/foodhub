@@ -22,6 +22,18 @@ class CustomTextFields extends StatefulWidget {
 
 class _CustomTextFieldsState extends State<CustomTextFields> {
   @override
+  void initState() {
+    widget.controller.addListener(() {
+      setState(() {
+
+        
+      });
+    });
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,13 +56,13 @@ class _CustomTextFieldsState extends State<CustomTextFields> {
             child: TextFormField(
               controller: widget.controller,
               decoration: InputDecoration(
-                  fillColor:widget.fillCollor ,
+                  fillColor: widget.fillCollor,
                   filled: true,
                   suffixIcon: widget.customIcons,
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      //borderSide: BorderSide(width: 5, color: Colors.red)
-                      )),
+                    borderRadius: BorderRadius.circular(20),
+                    //borderSide: BorderSide(width: 5, color: Colors.red)
+                  )),
             ),
           ),
         ),

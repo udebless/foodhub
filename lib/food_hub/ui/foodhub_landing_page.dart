@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:foodhub/food_hub/ui/login.dart';
+import 'package:foodhub/food_hub/ui/sign_up.dart';
 import 'package:foodhub/widgets/buttons/custom_flat_button.dart';
 
 class FoodhubLanding extends StatelessWidget {
@@ -35,11 +37,23 @@ class FoodhubLanding extends StatelessWidget {
                   CustomFlatButton(
                     height: 60,
                     width: 200,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                                    context,
+                                     MaterialPageRoute<void>(
+                                        builder: (BuildContext context) =>
+                                           Login() ));
+                    },
                     buttonName: 'Login',
                   ),
                   CustomFlatButton(height: 60,
-                    width: 200, buttonName: 'Sign Up', onPressed: () {}),
+                    width: 200, buttonName: 'Sign Up', onPressed: () {
+                      Navigator.push(
+                                    context,
+                                     MaterialPageRoute<void>(
+                                        builder: (BuildContext context) =>
+                                           FoodHubSignUp()));
+                    }),
                 ],
               ),
             ),

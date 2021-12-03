@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:foodhub/blocs/cubit/cart_cubit.dart';
+import 'package:foodhub/blocs/cubit/saved_cubit.dart';
 import 'package:foodhub/food_hub/models/product_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodhub/widgets/favourite.dart';
 
-class SearchItemCard extends StatefulWidget {
+class SearchItemCard extends StatelessWidget {
   final Product product;
   final bool checkoutbutton;
   final String? buttonName;
@@ -16,18 +20,13 @@ class SearchItemCard extends StatefulWidget {
       this.showbuttonName,
       this.width,
       this.height,
-      this.showAdsub = false, required this.product})
+      this.showAdsub = false,
+      required this.product})
       : super(key: key);
 
   @override
-  _SearchItemCardState createState() => _SearchItemCardState();
-}
-
-class _SearchItemCardState extends State<SearchItemCard> {
-  @override
   Widget build(BuildContext context) {
-    // print(widget.showAdsub);
-    print(widget.checkoutbutton);
+    // print(showAdsub);
 
     return Padding(
       padding: const EdgeInsets.only(left: 15),
@@ -47,10 +46,22 @@ class _SearchItemCardState extends State<SearchItemCard> {
               Positioned(
                   right: 20,
                   top: 30,
-                  child: Icon(
-                    Icons.favorite_outline,
-                    color: Colors.white,
-                  )),
+                  child: BlocBuilder<SavedCubit, SavedState>(
+                    builder: (context, saved) {
+                      return Favourite(
+                        onChanged: (value) {
+                          if (value) {
+                            context.read<SavedCubit>().addSavedItem(product);
+                          } else {
+                            context
+                                .read<SavedCubit>()
+                                .removeFromSavedItems(product);
+                          }
+                        },
+                        selected: saved.isAdded(product.id),
+                      );
+                    },
+                  ))
             ],
           ),
           Padding(
@@ -59,25 +70,25 @@ class _SearchItemCardState extends State<SearchItemCard> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  widget.product.productName,
+                  product.productName,
                   style: TextStyle(
                     fontSize: 35,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
-                  widget.product.productName,
+                  (product.price * product.itemCount).toString(),
                   style: TextStyle(
                     fontSize: 35,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                if (widget.checkoutbutton && widget.buttonName != null)
+                if (checkoutbutton && buttonName != null)
                   SizedBox(
-                    width: widget.width,
-                    height: widget.height,
+                    width: width,
+                    height: height,
                     child: TextButton(
-                      child: Text(widget.buttonName!),
+                      child: Text(buttonName!),
                       style: TextButton.styleFrom(
                         // side: BorderSide(),
                         shape: RoundedRectangleBorder(
@@ -88,24 +99,38 @@ class _SearchItemCardState extends State<SearchItemCard> {
                         textStyle: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
-                      onPressed: () {},
+                      onPressed: () =>
+                          context.read<CartCubit>().addTocart(product),
                     ),
                   ),
-                if (!widget.showAdsub)
+                if (showAdsub)
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         IconButton(
-                            icon: Icon(
-                              Icons.remove_circle,
-                            ),
-                            onPressed: () {}),
-                        Text('2'),
+                          icon: Icon(
+                            Icons.cancel,
+                          ),
+                          onPressed: () =>
+                              context.read<CartCubit>().removeFromCart(product),
+                        ),
                         IconButton(
-                            icon: Icon(
-                              Icons.add_circle,
-                            ),
-                            onPressed: () {}),
+                          icon: Icon(
+                            Icons.remove_circle,
+                          ),
+                          onPressed: () => context
+                              .read<CartCubit>()
+                              .decreaseProductCount(product.id),
+                        ),
+                        Text(product.itemCount.toString()),
+                        IconButton(
+                          icon: Icon(
+                            Icons.add_circle,
+                          ),
+                          onPressed: () => context
+                              .read<CartCubit>()
+                              .increaseProductCount(product.id),
+                        ),
                       ])
               ],
             ),

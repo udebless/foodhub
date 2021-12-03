@@ -1,77 +1,75 @@
 import 'package:foodhub/food_hub/models/category.dart';
 import 'package:foodhub/food_hub/models/product_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+FirebaseFirestore database = FirebaseFirestore.instance;
+
+final productRef = database.collection('products').withConverter<Product>(
+      fromFirestore: (snapshots, _) => Product.fromJson(snapshots.data()!),
+      toFirestore: (products, _) => products.toJson(),
+    );
 
 class ProductService {
-  static Product getProductById(String id) {
-    return Product(
-        productDescription: 'this is an egg',
-        price: 64,
-        nutritionalValue: [
-          'Calories',
-              'fat',
-          'cholesterol',
-          'Saturated fats'
-        ],
-        productName: 'Egg',
-        customerName: 'Emeka',
-        reviewHeading: 'Horrible',
-        review: 'I was delivered a spoilt product',
-        date: DateTime.now(),
-        id: '2');
+  static Future<Product?> getProductById(String id) async {
+    var prdct = await productRef.doc(id).get();
+    return prdct.data();
   }
 
- static List <Product> getAllPrpducts() {
-    var list =<Product> [];
+  Future<List<Product>> getAllProducts() async {
+    var prdct = await productRef.get();
+    return prdct.docs.map((e) => e.data()).toList();
+  }
 
-    for (var i = 0; i < 10; i++) {
-      list.add(getProductById(i.toString()));
+  static Future<List<Product>> getSavedItems() async {
+    var prdct = await productRef.get();
+    return prdct.docs.map((e) => e.data()).toList();
+  }
+
+  static Future<List<Product?>> customerAlsoViewed() async {
+    var prdct = await database.doc('alsoViewed/jAX2DbrHJG45qBVoCKkR').get();
+    var ids = prdct.data()?['ids'];
+    if (ids != null) {
+      var products = (ids as List).map((e) => getProductById(e));
+     return Future.wait(products);
     }
-    return list;
+    return [];
   }
-  static List <Product> getSavedItems() {
-    var list =<Product> [];
-
-    for (var i = 0; i < 10; i++) {
-      list.add(getProductById(i.toString()));
+    static Future<List<Product?>> JustForYou() async {
+    var prdct = await database.doc('foryou/4sQhZ8vPQO4pkmJ2BpJP ').get();
+    var ids = prdct.data()?['ids'];
+    if (ids != null) {
+      var products = (ids as List).map((e) => getProductById(e));
+     return Future.wait(products);
     }
-    return list;
+    return [];
   }
-    static List <Product> customerAlsoViewed() {
-    var list =<Product> [];
 
-    for (var i = 0; i < 10; i++) {
-      list.add(getProductById(i.toString()));
-    }
-    return list;
+  static Future<List<Product>> justForYou() async {
+    var prdct = await productRef.get();
+    return prdct.docs.map((e) => e.data()).toList();
   }
-      static List <Product> justForYou() {
-    var list =<Product> [];
 
-    for (var i = 0; i < 10; i++) {
-      list.add(getProductById(i.toString()));
-    }
-    return list;
-  }
-      static List <Category> productCategory() {
-    var list =<Category> [
-
-Category('Fruits'),
-Category('Vegetable'),
-Category('Cereals'),
-Category('Ingredients'),
-      
+  static List<Category> productCategory() {
+    var list = <Category>[
+      Category('Fruits'),
+      Category('Vegetable'),
+      Category('Cereals'),
+      Category('Ingredients'),
     ];
 
-  
-    
     return list;
   }
-    static List <Product> myCart() {
-    var list =<Product> [];
 
-    for (var i = 0; i < 10; i++) {
-      list.add(getProductById(i.toString()));
-    }
-    return list;
+  static Future<List<Product>> myCart() async {
+    var prdct = await productRef.get();
+    return prdct.docs.map((e) => e.data()).toList();
   }
+
+  //  static List<Product> myCart() {
+  // var list = <Product>[];
+
+  // for (var i = 0; i < 10; i++) {
+  //   list.add(getProductById(i.toString()));
+  // }
+  // return list;
 }

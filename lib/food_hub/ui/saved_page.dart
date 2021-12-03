@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodhub/blocs/cubit/saved_cubit.dart';
 import 'package:foodhub/food_hub/models/product_model.dart';
 import 'package:foodhub/food_hub/services/product_service.dart';
 import 'package:foodhub/widgets/search_item_cards.dart';
@@ -11,43 +13,46 @@ class SavedPage extends StatefulWidget {
 }
 
 class _SavedPageState extends State<SavedPage> {
-  List<Product> savedItems = ProductService.getSavedItems();
+  // List<Product> savedItems = ProductService.getSavedItems();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: Container(
-                width: double.infinity,
-                height: 236,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage("images/watermelonbg.png"),
-                      fit: BoxFit.cover),
-                )),
-          ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return Padding(
-                  padding: const EdgeInsets.only(top: 33.0, right: 30),
-                  child: SearchItemCard(
-                    width: 100,
-                    height: 50,
-                    checkoutbutton: true,
-                    buttonName: 'Checkout',
-                    showAdsub: false,
-                    product: savedItems[index],
-                  ),
-                );
-              },
-              childCount: savedItems.length,
-            ),
-          ),
-        ],
+      body: BlocBuilder<SavedCubit ,SavedState>(
+        builder: (context, saved) {
+          return CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: Container(
+                    width: double.infinity,
+                    height: 236,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage("images/watermelonbg.png"),
+                          fit: BoxFit.cover),
+                    )),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 33.0, right: 30),
+                      child: SearchItemCard(
+                        width: 100,
+                        height: 50,
+                        checkoutbutton: true,
+                        buttonName: 'Checkout',
+                        showAdsub: false,
+                        product: saved.savedItems[index],
+                      ),
+                    );
+                  },
+                  childCount:saved.savedItems.length,
+                ),
+              ),
+            ],
+          );
+        },
       ),
-   
     );
   }
 }
