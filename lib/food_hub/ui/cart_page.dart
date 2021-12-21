@@ -4,24 +4,21 @@ import 'package:foodhub/blocs/cubit/cart_cubit.dart';
 import 'package:foodhub/blocs/cubit/store_cubit.dart';
 import 'package:foodhub/food_hub/models/product_model.dart';
 import 'package:foodhub/food_hub/services/product_service.dart';
+import 'package:foodhub/food_hub/ui/checkout_page.dart';
 import 'package:foodhub/food_hub/ui/product_description_page.dart';
 import 'package:foodhub/food_hub/util/cart_utils.dart';
+import 'package:foodhub/widgets/app_bar_cart_item_icon.dart';
 import 'package:foodhub/widgets/buttons/custom_flat_button.dart';
 import 'package:foodhub/widgets/custom_card.dart';
-import 'package:foodhub/widgets/search_item_cards.dart';
+import 'package:foodhub/widgets/product_card.dart';
 import 'package:foodhub/widgets/srollablerow.dart';
 
-class CartPage extends StatefulWidget {
+class CartPage extends StatelessWidget {
   // final Product product;
   const CartPage({
     Key? key,
   }) : super(key: key);
 
-  @override
-  _CartPageState createState() => _CartPageState();
-}
-
-class _CartPageState extends State<CartPage> {
   // List<Product> customerViewed = ProductService.customerAlsoViewed();
   //List<Product> cart = ProductService.myCart();
 
@@ -59,9 +56,10 @@ class _CartPageState extends State<CartPage> {
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
+                    print(' this isnit${state.cartItems}');
                     return Padding(
                       padding: const EdgeInsets.only(top: 33.0, right: 30),
-                      child: SearchItemCard(
+                      child: ProductCard(
                         width: 100,
                         height: 50,
                         product: cart[index],
@@ -83,14 +81,10 @@ class _CartPageState extends State<CartPage> {
                       Text('Cart Total',
                           style: TextStyle(
                               fontSize: 25, fontWeight: FontWeight.bold)),
-                      BlocBuilder<CartCubit, CartState>(
-                        builder: (context, state) {
-                          return Text(
-                            calculateCart(state.cartItems).toString(),
-                            style: TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.bold),
-                          );
-                        },
+                      Text(
+                        calculateCart(state.cartItems).toString(),
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.bold),
                       )
                     ],
                   ),
@@ -102,7 +96,13 @@ class _CartPageState extends State<CartPage> {
                   child: CustomFlatButton(
                     height: 60,
                     width: 300,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                              builder: (BuildContext context) =>
+                                  CheckOutPage()));
+                    },
                     buttonName: 'Checkout',
                   ),
                 ),
@@ -121,25 +121,26 @@ class _CartPageState extends State<CartPage> {
                               fontWeight: FontWeight.bold, fontSize: 25),
                         ),
                       ),
-                      BlocBuilder<StoreCubit, StoreState >(
+                      BlocBuilder<StoreCubit, StoreState>(
                         builder: (context, state) {
                           return ScrollableRow(
                             children: List.generate(
                                 state.customersalsoviewed.length,
                                 (index) => InkWell(
                                       child: SuggestedProductCard(
-                                        product: state.customersalsoviewed[index],
+                                        product:
+                                            state.customersalsoviewed[index],
                                       ),
                                       onTap: () {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute<void>(
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        ProductDescriptionPage(
-                                                            product:
-                                                                state.customersalsoviewed[
-                                                                    index])));
+                                                builder: (BuildContext
+                                                        context) =>
+                                                    ProductDescriptionPage(
+                                                        product: state
+                                                                .customersalsoviewed[
+                                                            index])));
                                       },
                                     )),
                           );

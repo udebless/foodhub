@@ -30,7 +30,7 @@ class _HomeState extends State<Home> {
             if (AuthService().auth.currentUser == null) {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Login()),
+                MaterialPageRoute(builder: (context) => LoginPage()),
               );
             }
           });

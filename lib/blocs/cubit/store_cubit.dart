@@ -9,9 +9,13 @@ class StoreCubit extends Cubit<StoreState> {
   StoreCubit() : super(StoreState());
 
   init() async {
-     var customerViewed = await ProductService.customerAlsoViewed();
-     emit(state.copyWith(customersalsoviewed: List.from(customerViewed)));
-
+    try {
+      var customerViewed = await ProductService.customerAlsoViewed();
+      customerViewed.removeWhere((e) => e == null);
+      emit(state.copyWith(customersalsoviewed: List.from(customerViewed)));
+    } catch (e) {
+      print(e);
+    }
     var justforU = await ProductService.JustForYou();
     emit(state.copyWith(forYou: List.from(justforU)));
     var allproducts = await ProductService().getAllProducts();

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodhub/blocs/cubit/store_cubit.dart';
 import 'package:foodhub/food_hub/services/product_service.dart';
 import 'package:foodhub/widgets/category_card.dart';
-import 'package:foodhub/widgets/search_item_cards.dart';
+import 'package:foodhub/widgets/product_card.dart';
 
 class SearchPagee extends StatefulWidget {
   const SearchPagee({Key? key}) : super(key: key);
@@ -13,6 +13,12 @@ class SearchPagee extends StatefulWidget {
 }
 
 class _SearchPageeState extends State<SearchPagee> {
+  @override
+  void initState() {
+    ProductService().postReview('sn5r0DBSJoqdt2aAgxHG');
+    super.initState();
+  }
+
   // var products = ProductService.getAllPrpducts();
   @override
   Widget build(BuildContext context) {
@@ -67,10 +73,10 @@ class _SearchPageeState extends State<SearchPagee> {
                     (BuildContext context, int index) {
                       return Padding(
                         padding: const EdgeInsets.only(top: 33.0, right: 100),
-                        child: SearchItemCard(
+                        child: ProductCard(
                           checkoutbutton: false,
                           buttonName: 'Check out',
-                          product:state.allProduct[index],
+                          product: state.allProduct[index],
                         ),
                       );
                     },

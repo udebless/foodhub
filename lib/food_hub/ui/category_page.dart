@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:foodhub/widgets/app_bar_cart_item_icon.dart';
+import 'package:foodhub/widgets/cart_icon.dart';
 
 class CateoryPage extends StatefulWidget {
   const CateoryPage({Key? key}) : super(key: key);
@@ -17,6 +19,7 @@ class _CateoryPageState extends State<CateoryPage> {
                   expandedHeight: 200,
                   collapsedHeight: 150,
                   pinned: true,
+                  actions: [   CartIcon(),],
                   flexibleSpace: Stack(
                     children: [
                       Container(

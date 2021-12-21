@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:foodhub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:foodhub/food_hub/services/authServices.dart';
 import 'package:foodhub/food_hub/ui/home_page.dart';
 import 'package:foodhub/widgets/arrowback/arrowback.dart';
 import 'package:foodhub/widgets/buttons/custom_flat_button.dart';
 import 'package:foodhub/widgets/textfields/text_fields.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/src/provider.dart';
 
-class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
-  _LoginState createState() => _LoginState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginPageState extends State<LoginPage> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
@@ -24,7 +26,8 @@ class _LoginState extends State<Login> {
         constraints: BoxConstraints.expand(),
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("images/loginBg.png"), fit: BoxFit.cover)),
+                image: AssetImage("images/LoginPageBg.png"),
+                fit: BoxFit.cover)),
         child: Stack(
           children: [
             Container(
@@ -45,7 +48,7 @@ class _LoginState extends State<Login> {
                 left: 30,
                 top: 100,
                 child: Text(
-                  'Login',
+                  'LoginPage',
                   style: TextStyle(
                       fontSize: 60,
                       fontWeight: FontWeight.w700,
@@ -55,7 +58,8 @@ class _LoginState extends State<Login> {
                 top: 300,
                 left: 35,
                 right: 35,
-                child: CustomTextFields(fillCollor: Colors.white,
+                child: CustomTextFields(
+                  fillCollor: Colors.white,
                   fieldText: 'Email Address',
                   controller: _emailController,
                 )),
@@ -77,17 +81,16 @@ class _LoginState extends State<Login> {
                 height: 60,
                 width: 200,
                 onPressed: () {
-                  AuthService().login(
-                      _emailController.text, _passwordController.text,
+                  context.read<AuthBloc>().add(Login(
+                      email: _emailController.text,
+                      password: _passwordController.text,
                       onError: () {},
-                      onSucces: ()=> Navigator.push(
-                      context,
-                      MaterialPageRoute<void>(
-                          builder: (BuildContext context) => Home())));
-                      
-                 
+                      onSuccess: () => Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                              builder: (BuildContext context) => Home()))));
                 },
-                buttonName: 'Login',
+                buttonName: 'LoginPage',
               ),
             ),
             Positioned(
@@ -113,7 +116,7 @@ class _LoginState extends State<Login> {
                 height: 60,
                 width: 200,
                 onPressed: () {},
-                buttonName: 'Login with Google',
+                buttonName: 'LoginPage with Google',
                 imageIcon: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Image(image: AssetImage("images/ggl.png")),

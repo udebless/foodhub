@@ -42,7 +42,7 @@ class FoodhubLanding extends StatelessWidget {
                                     context,
                                      MaterialPageRoute<void>(
                                         builder: (BuildContext context) =>
-                                           Login() ));
+                                           LoginPage() ));
                     },
                     buttonName: 'Login',
                   ),

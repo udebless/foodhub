@@ -9,7 +9,9 @@ class CartCubit extends Cubit<CartState> {
 
   addTocart(Product product) {
     var products = state.cartItems.toList();
-    products.add(product);
+    if (!isAdded(product.id)) {
+      products.add(product);
+    }
 
     emit(state.copyWith(cartItems: products));
   }
@@ -20,26 +22,34 @@ class CartCubit extends Cubit<CartState> {
     emit(state.copyWith(cartItems: products));
   }
 
-  decreaseProductCount(String id) {
-    var index = state.cartItems.indexWhere((element) => element.id == id);
+  changeProductCount(String id, {bool isAdd = false}) {
+    var cartItems = state.cartItems.map((e) {
+      if (e.id == id) {
+        if (isAdd) {
+          e.itemCount += 1;
+        }
+        else
+        if(e.itemCount!=1){
+          e.itemCount -= 1;
+        }
+        
+      }
+      else{}
+      return e;
+    }).toList();
 
-    var product = state.cartItems[index];
-    product.itemCount--;
-
-    state.cartItems[index] = product;
-
-    emit(state);
+    emit(state.copyWith(cartItems: cartItems));
   }
 
-  increaseProductCount(String id) {
-     var index = state.cartItems.indexWhere((element) => element.id == id);
+ 
 
-    var product = state.cartItems[index];
-    product.itemCount++;
+  isAdded(String id) {
+    var index = state.cartItems.indexWhere((element) => element.id == id);
 
-    state.cartItems[index] = product;
-
-    emit(state);
-
+    if (index == -1) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }

@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodhub/blocs/cubit/saved_cubit.dart';
 import 'package:foodhub/food_hub/models/product_model.dart';
 import 'package:foodhub/food_hub/services/product_service.dart';
-import 'package:foodhub/widgets/search_item_cards.dart';
+import 'package:foodhub/widgets/app_bar_cart_item_icon.dart';
+import 'package:foodhub/widgets/cart_icon.dart';
+import 'package:foodhub/widgets/product_card.dart';
 
 class SavedPage extends StatefulWidget {
   const SavedPage({Key? key}) : super(key: key);
@@ -17,6 +19,7 @@ class _SavedPageState extends State<SavedPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(actions: [   CartIcon(),],),
       body: BlocBuilder<SavedCubit ,SavedState>(
         builder: (context, saved) {
           return CustomScrollView(
@@ -36,7 +39,7 @@ class _SavedPageState extends State<SavedPage> {
                   (BuildContext context, int index) {
                     return Padding(
                       padding: const EdgeInsets.only(top: 33.0, right: 30),
-                      child: SearchItemCard(
+                      child: ProductCard(
                         width: 100,
                         height: 50,
                         checkoutbutton: true,

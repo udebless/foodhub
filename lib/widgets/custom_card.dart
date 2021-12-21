@@ -33,7 +33,7 @@ class _SuggestedProductCardState extends State<SuggestedProductCard> {
                     borderRadius: BorderRadius.all(Radius.circular(10)) ,
                       image: DecorationImage(
                         
-                          image: AssetImage("images/fdhubbg.png"),
+                          image: NetworkImage(widget.product.imageUrl),
                           fit: BoxFit.cover)),
                 ),
                 Positioned(

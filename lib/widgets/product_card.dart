@@ -3,9 +3,11 @@ import 'package:foodhub/blocs/cubit/cart_cubit.dart';
 import 'package:foodhub/blocs/cubit/saved_cubit.dart';
 import 'package:foodhub/food_hub/models/product_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodhub/food_hub/services/product_service.dart';
+import 'package:foodhub/food_hub/ui/product_description_page.dart';
 import 'package:foodhub/widgets/favourite.dart';
 
-class SearchItemCard extends StatelessWidget {
+class ProductCard extends StatelessWidget {
   final Product product;
   final bool checkoutbutton;
   final String? buttonName;
@@ -13,7 +15,7 @@ class SearchItemCard extends StatelessWidget {
   final double? width;
   final double? height;
   final bool showAdsub;
-  const SearchItemCard(
+  const ProductCard(
       {Key? key,
       this.checkoutbutton = false,
       this.buttonName,
@@ -26,6 +28,7 @@ class SearchItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('this is the count ${product.itemCount}');
     // print(showAdsub);
 
     return Padding(
@@ -34,14 +37,23 @@ class SearchItemCard extends StatelessWidget {
         children: [
           Stack(
             children: [
-              Container(
-                width: 200,
-                height: 135,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    image: DecorationImage(
-                        image: AssetImage("images/carrot.png"),
-                        fit: BoxFit.cover)),
+              InkWell(
+                child: Container(
+                  width: 200,
+                  height: 135,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      image: DecorationImage(
+                          image: AssetImage("images/carrot.png"),
+                          fit: BoxFit.cover)),
+                ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute<void>(
+                          builder: (BuildContext context) =>
+                              ProductDescriptionPage(product: product)));
+                },
               ),
               Positioned(
                   right: 20,
@@ -120,7 +132,7 @@ class SearchItemCard extends StatelessWidget {
                           ),
                           onPressed: () => context
                               .read<CartCubit>()
-                              .decreaseProductCount(product.id),
+                              .changeProductCount(product.id, ),
                         ),
                         Text(product.itemCount.toString()),
                         IconButton(
@@ -129,7 +141,7 @@ class SearchItemCard extends StatelessWidget {
                           ),
                           onPressed: () => context
                               .read<CartCubit>()
-                              .increaseProductCount(product.id),
+                              .changeProductCount(product.id, isAdd:true),
                         ),
                       ])
               ],
