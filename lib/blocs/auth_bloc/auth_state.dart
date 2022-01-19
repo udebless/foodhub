@@ -1,6 +1,11 @@
 part of 'auth_bloc.dart';
 
-@immutable
-abstract class AuthState {}
+class AuthState {
+  final bool isInitial;
 
-class AuthInitial extends AuthState {}
+  AuthState({this.isInitial = true});
+
+  AuthState copyWith({bool? isInitial}) {
+    return AuthState(isInitial: isInitial ?? this.isInitial);
+  }
+}

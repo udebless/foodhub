@@ -11,4 +11,14 @@ class Login extends AuthEvent {
 
   Login({required this.email, required this.password, this.onError, this.onSuccess});
 
+
+
+
+}
+
+class AppStarted extends AuthEvent{
+
+  
+
+
 }
